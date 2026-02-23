@@ -1,0 +1,23 @@
+
+
+name: snowflake_dbt_medallion_analytics
+version: '1.0'
+config-version : 2
+
+
+profile: snowflake_dbt_medallion_analytics
+
+models:
+  snowflake_dbt_medallion_analytics:
+
+    bronze:
+      +materialized: view
+      +schema: BRONZE
+
+    silver:
+      +materialized: table
+      +schema: SILVER
+
+    gold:
+      +materialized: view
+      +schema: GOLD

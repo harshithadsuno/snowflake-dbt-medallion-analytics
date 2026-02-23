@@ -1,0 +1,23 @@
+
+version : 2
+
+sources :
+
+  - name : raw_crm 
+    database : SALES_DB
+    schema : RAW
+
+    tables :
+      - name : RAW_CRM_CUST_INFO
+      - name : RAW_CRM_PRD_INFO
+      - name : RAW_CRM_SALES_DETAILS
+
+
+  - name : raw_erp
+    database : SALES_DB
+    schema : RAW
+    
+    tables : 
+      - name : RAW_ERP_CUST_AZ12
+      - name : RAW_ERP_LOC_A101
+      - name : RAW_ERP_PX_CAT_G1V2

@@ -1,0 +1,77 @@
+
+version: 2
+
+models:
+  - name: gold_dim_customers
+    description: "Customer dimension (one row per customer)."
+    columns:
+      - name: customer_key
+        description: "Surrogate key for customer."
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Natural customer id from source."
+        tests:
+          - not_null
+          - unique
+
+  - name: gold_dim_products
+    description: "Product dimension (one row per product)."
+    columns:
+      - name: product_key
+        description: "Surrogate key for product."
+        tests:
+          - not_null
+          - unique
+      - name: product_number
+        description: "Natural product key used in sales."
+        tests:
+          - not_null
+          - unique
+
+  - name: gold_fact_sales
+    description: "Sales fact table at order-line grain (one row per order_number + product_key)."
+    columns:
+    
+      - name: order_line_key
+        description: "Deterministic surrogate key for the order line: md5(order_number | product_key). Primary grain for merge."
+        tests:
+          - not_null
+          - unique
+
+      - name: order_number
+        description: "Order identifier (not unique alone at order-line grain)."
+        tests:
+          - not_null
+
+      - name: product_key
+        description: "FK to gold_dim_products."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('gold_dim_products')
+              field: product_key
+
+      - name: customer_key
+        description: "FK to gold_dim_customers."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('gold_dim_customers')
+              field: customer_key
+              
+      - name: sales_amount
+        description: "Sales amount for the order line."
+        tests:
+          - not_null
+
+      - name: quantity
+        description: "Quantity sold for the order line."
+        tests:
+          - not_null
+
+      - name: price
+        description: "Unit price for the order line."
+        tests:
+          - not_null
